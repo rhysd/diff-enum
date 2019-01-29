@@ -1,0 +1,12 @@
+[package]
+name = "diff-enum"
+version = "0.1.0"
+authors = ["rhysd <lin90162@yahoo.co.jp>"]
+edition = "2018"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+syn = "0.15"
+quote = "0.6"
