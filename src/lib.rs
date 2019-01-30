@@ -11,15 +11,18 @@ use quote::quote;
 use syn::{Data, DeriveInput, FieldsNamed, Ident};
 
 #[proc_macro_attribute]
-pub fn diff_enum(attr: TokenStream, item: TokenStream) -> TokenStream {
-    let shared: FieldsNamed = parse_shared_fields(dbg!(attr));
+pub fn common_fields(attr: TokenStream, item: TokenStream) -> TokenStream {
+    let shared: FieldsNamed = parse_shared_fields(attr);
     if shared.named.is_empty() {
-        panic!("No shared field is set to #[diff_enum]");
+        panic!("No shared field is set to #[diff_enum::common_fields]");
     }
 
     let input: DeriveInput = match syn::parse(item) {
         Ok(parsed) => parsed,
-        Err(err) => panic!("#[diff_enum] only can be set at enum definition: {}", err),
+        Err(err) => panic!(
+            "#[diff_enum::common_fields] only can be set at enum definition: {}",
+            err
+        ),
     };
 
     let impl_accessors = generate_accessors(&shared, &input, input.ident.clone());
@@ -37,14 +40,17 @@ fn parse_shared_fields(attr: TokenStream) -> FieldsNamed {
     let braced = TokenStream::from(TokenTree::Group(Group::new(Delimiter::Brace, attr)));
     match syn::parse(braced) {
         Ok(fields) => fields,
-        Err(err) => panic!("Cannot parse fields in attributes at #[diff_enum]: {}", err),
+        Err(err) => panic!(
+            "Cannot parse fields in attributes at #[diff_enum::common_fields]: {}",
+            err
+        ),
     }
 }
 
 fn expand_shared_fields(shared: &FieldsNamed, mut input: DeriveInput) -> TokenStream2 {
     let mut enum_ = match input.data {
         Data::Enum(e) => e,
-        _ => panic!("#[diff_enum] can be set at only enum"),
+        _ => panic!("#[diff_enum::common_fields] can be set at only enum"),
     };
 
     for variant in enum_.variants.iter_mut() {
@@ -55,7 +61,7 @@ fn expand_shared_fields(shared: &FieldsNamed, mut input: DeriveInput) -> TokenSt
                 }
             }
             syn::Fields::Unnamed(_) => panic!(
-                "#[diff_enum] cannot mix named fields with unnamed fields at enum variant {}",
+                "#[diff_enum::common_fields] cannot mix named fields with unnamed fields at enum variant {}",
                 variant.ident.to_string()
             ),
             syn::Fields::Unit => {
@@ -71,7 +77,7 @@ fn expand_shared_fields(shared: &FieldsNamed, mut input: DeriveInput) -> TokenSt
 fn generate_accessors(shared: &FieldsNamed, input: &DeriveInput, enum_name: Ident) -> TokenStream2 {
     let variants = match input.data {
         Data::Enum(ref e) => &e.variants,
-        _ => panic!("#[diff_enum] can be set at only enum"),
+        _ => panic!("#[diff_enum::common_fields] can be set at only enum"),
     };
 
     let accessors = shared.named.iter().map(|field| {

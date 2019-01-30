@@ -2,11 +2,11 @@
 
 extern crate diff_enum;
 
-use diff_enum::diff_enum;
+use diff_enum::common_fields;
 
 #[test]
 fn basic() {
-    #[diff_enum {
+    #[common_fields {
         x: i32,
     }]
     enum E {
