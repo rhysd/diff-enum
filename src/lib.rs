@@ -12,10 +12,7 @@ use syn::{Data, DeriveInput, FieldsNamed, Ident};
 
 #[proc_macro_attribute]
 pub fn diff_enum(attr: TokenStream, item: TokenStream) -> TokenStream {
-    let shared: FieldsNamed = match syn::parse(attr) {
-        Ok(fields) => fields,
-        Err(err) => panic!("Cannot parse fields in attributes at #[diff_enum]: {}", err),
-    };
+    let shared: FieldsNamed = parse_shared_fields(dbg!(attr));
     if shared.named.is_empty() {
         panic!("No shared field is set to #[diff_enum]");
     }
@@ -33,6 +30,15 @@ pub fn diff_enum(attr: TokenStream, item: TokenStream) -> TokenStream {
     };
 
     tokens.into()
+}
+
+fn parse_shared_fields(attr: TokenStream) -> FieldsNamed {
+    use proc_macro::{Delimiter, Group, TokenTree};
+    let braced = TokenStream::from(TokenTree::Group(Group::new(Delimiter::Brace, attr)));
+    match syn::parse(braced) {
+        Ok(fields) => fields,
+        Err(err) => panic!("Cannot parse fields in attributes at #[diff_enum]: {}", err),
+    }
 }
 
 fn expand_shared_fields(shared: &FieldsNamed, mut input: DeriveInput) -> TokenStream2 {
@@ -78,7 +84,9 @@ fn generate_accessors(shared: &FieldsNamed, input: &DeriveInput, enum_name: Iden
             }
         });
         quote! {
-            fn #field_name (&self) -> &#ty {
+            #[inline]
+            #[allow(dead_code)]
+            pub fn #field_name (&self) -> &#ty {
                 match self {
                     #( #arms )*
                 }

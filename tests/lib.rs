@@ -6,9 +6,9 @@ use diff_enum::diff_enum;
 
 #[test]
 fn basic() {
-    #[diff_enum({
+    #[diff_enum {
         x: i32,
-    })]
+    }]
     enum E {
         A { b: bool },
         B,
