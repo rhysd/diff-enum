@@ -1,8 +1,13 @@
 [package]
 name = "diff-enum"
 version = "0.1.0"
-authors = ["rhysd <lin90162@yahoo.co.jp>"]
+authors = ["rhysd <https://rhysd.github.io>"]
 edition = "2018"
+description = "A macro library to help defining enum variants by their differences"
+repository = "https://github.com/rhysd/diff-enum"
+readme = "README.md"
+license = "MIT"
+include = ["/src/**/*.rs", "/Cargo.toml", "/LICENSE.txt"]
 
 [lib]
 proc-macro = true
@@ -11,3 +16,10 @@ proc-macro = true
 syn = "0.15"
 quote = "0.6"
 proc-macro2 = "0.4.26"
+
+[badges]
+maintenance = { status = "actively-developed" }
+
+[package.metadata.release]
+no-dev-version = true
+
