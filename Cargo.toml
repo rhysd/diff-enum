@@ -20,9 +20,9 @@ syn = "0.15"
 quote = "0.6"
 proc-macro2 = "0.4"
 
-[badges]
-maintenance = { status = "actively-developed" }
-
 [dev-dependencies]
 cargo-husky = "1.3"
 
+[badges]
+maintenance = { status = "actively-developed" }
+travis-ci = { repository = "rhysd/world-map-gen" }

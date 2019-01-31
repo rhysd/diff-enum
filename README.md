@@ -1,5 +1,8 @@
 `#[diff_enum]` macro for Rust
 =============================
+[![crates.io][crate-badge]][crate]
+[![documentation][doc-badge]][doc]
+[![CI Status][travis-ci-badge]][travis-ci]
 
 This is a small Rust library provides one attribute macro `#[diff_enum::common_fields]` to help defining
 `enum` variants by their differences. It is useful when you need to handle data which are almost the
@@ -186,3 +189,10 @@ The attribute macro causes compilation errors in the following cases.
 
 Distributed under [the MIT License](./LICENSE.txt).
 
+
+[crate]: https://crates.io/crates/diff-enum
+[crate-badge]: https://img.shields.io/crates/v/diff-enum.svg
+[doc-badge]: https://docs.rs/diff-enum/badge.svg
+[doc]: https://docs.rs/diff-enum
+[travis-ci-badge]: https://travis-ci.org/rhysd/diff-enum.svg?branch=master
+[travis-ci]: https://travis-ci.org/rhysd/diff-enum

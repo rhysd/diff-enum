@@ -1,0 +1,39 @@
+language: rust
+rust: stable
+dist: xenial
+
+env:
+  global:
+    - RUST_STACKTRACE=full
+
+matrix:
+  include:
+    - os: linux
+      rust: stable
+      env: LINT=false
+    - os: linux
+      rust: nightly
+      env: LINT=false
+    - os: linux
+      rust: stable
+      env: LINT=true
+  allow_failures:
+    - rust: nightly
+
+before_script:
+  - rustc -V
+  - cargo -V
+
+script:
+  - |
+      if [[ "$LINT" == "false" ]]; then
+        cargo test --verbose
+      else
+        rustup component add clippy
+        cargo clippy
+      fi
+
+notifications:
+  email:
+    on_success: never
+    on_failure: change
