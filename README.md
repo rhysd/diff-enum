@@ -173,6 +173,13 @@ impl E {
 }
 ```
 
+The attribute macro causes compilation errors in the following cases.
+
+- When no common field is put
+- When fields in attribute argument is not form of `field: type`
+- When `#[common_fields {...}]` is set to other than `enum` definitions
+- When tuple style enum variant is used in `enum` definition
+
 
 
 ## License
