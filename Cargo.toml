@@ -9,17 +9,20 @@ readme = "README.md"
 license = "MIT"
 include = ["/src/**/*.rs", "/Cargo.toml", "/LICENSE.txt"]
 
+[package.metadata.release]
+no-dev-version = true
+
 [lib]
 proc-macro = true
 
 [dependencies]
 syn = "0.15"
 quote = "0.6"
-proc-macro2 = "0.4.26"
+proc-macro2 = "0.4"
 
 [badges]
 maintenance = { status = "actively-developed" }
 
-[package.metadata.release]
-no-dev-version = true
+[dev-dependencies]
+cargo-husky = "1.3"
 
