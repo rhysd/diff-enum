@@ -208,7 +208,6 @@ use proc_macro_attribute;
 use quote::quote;
 use syn::{Data, DeriveInput, Fields, FieldsNamed, Ident};
 
-/// Transforms given attributes and items into one enum definition and accessor methods impl
 #[proc_macro_attribute]
 pub fn common_fields(attr: TokenStream, item: TokenStream) -> TokenStream {
     let shared: FieldsNamed = parse_shared_fields(attr);
