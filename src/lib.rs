@@ -290,6 +290,7 @@ fn generate_accessors(shared: &FieldsNamed, input: &DeriveInput, enum_name: Iden
         quote! {
             #[inline]
             #[allow(dead_code)]
+            #[allow(missing_docs)]
             pub fn #field_name (&self) -> &#ty {
                 match self {
                     #( #arms )*
